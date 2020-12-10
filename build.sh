@@ -9,8 +9,9 @@ if [ -z "$branch" ]; then
 fi
 ./cp-static.sh
 
-for base in alpine baseimage; do
+#for base in alpine baseimage; do
+for base in baseimage; do 
   cd "py3-$base"
-  docker build . -t "stevearc/pypicloud:$branch-$base" -t "stevearc/pypicloud:local-$base"
+  docker build . -t "ambition/pypicloud:$branch-$base" -t "ambition/pypicloud:local-$base"
   cd ..
 done
