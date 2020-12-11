@@ -8,13 +8,14 @@ EXPOSE 8080
 # Install packages required
 RUN apt-get update -qq \
   && DEBIAN_FRONTEND=noninteractive apt-get install -qy python3-pip \
-     python3-dev libldap2-dev libsasl2-dev libmysqlclient-dev libffi-dev libssl-dev bcrypt \
-  && pip3 install -i https://pypi.ambition.ninja/root/ambition/ pypicloud[all_plugins]==$PYPICLOUD_VERSION requests uwsgi \
-     pastescript mysqlclient psycopg2-binary bcrypt \
-    # removed: apt-get install libmysqlclient-dev libldap2-dev
-    # removed: pip install mysqlclient pypicloud[all_plugins]
+     python3-dev libldap2-dev libsasl2-dev libmysqlclient-dev libffi-dev libssl-dev bcrypt
+
+RUN pip3 install requests uwsgi pastescript mysqlclient psycopg2-binary bcrypt
+
+RUN pip3 install -i https://pypi.ambition.ninja/root/ambition/ pypicloud[all_plugins]==$PYPICLOUD_VERSION
+
   # Create the pypicloud user
-  && groupadd -r pypicloud \
+RUN groupadd -r pypicloud \
   && useradd -r -g pypicloud -d /var/lib/pypicloud -m pypicloud \
   # Make sure this directory exists for the baseimage init
   && mkdir -p /etc/my_init.d
